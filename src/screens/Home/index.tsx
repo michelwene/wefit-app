@@ -1,11 +1,24 @@
-import React, { useState } from "react";
-import { Text } from "react-native";
+import React, { useEffect, useState } from "react";
 import * as S from "./styles";
 import { FontAwesome } from "@expo/vector-icons";
 import { Modal } from "../../components/Modal";
 import { IconButton } from "../../components/IconButton";
+import { api } from "../../services/api";
+
+interface UserProps {
+  id: number;
+  name: string;
+  owner: {
+    login: string;
+    avatar_url: string;
+  };
+  language: string;
+  description: string;
+  stargazers_count: number;
+}
 
 export function Home() {
+  const [repositories, setRepositories] = useState<UserProps[]>([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   function handleOpenModal() {
@@ -16,9 +29,26 @@ export function Home() {
     setIsOpenModal(false);
   }
 
-  function handleSelectRepository(name: string) {
-    console.log(name);
+  async function handleSelectRepository(name: string) {
+    try {
+      const response = await api.get(`/${name}/repos`);
+      const repositories = response.data.map((repository: UserProps) => {
+        return {
+          id: repository.id,
+          name: repository.name,
+          owner: repository.owner.login,
+          avatar_url: repository.owner.avatar_url,
+          language: repository.language,
+          description: repository.description,
+          stargazers_count: repository.stargazers_count,
+        };
+      });
+      console.log(repositories);
+    } catch (error) {
+      console.log("deu erro mano");
+    }
   }
+
   return (
     <>
       <S.Container>
