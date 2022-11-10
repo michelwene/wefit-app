@@ -15,6 +15,10 @@ export function Home() {
   function handleCloseModal() {
     setIsOpenModal(false);
   }
+
+  function handleSelectRepository(name: string) {
+    console.log(name);
+  }
   return (
     <>
       <S.Container>
@@ -26,7 +30,11 @@ export function Home() {
           />
         </S.Header>
       </S.Container>
-      <Modal isOpen={isOpenModal} handleClose={() => handleCloseModal()} />
+      <Modal
+        isOpen={isOpenModal}
+        handleClose={() => handleCloseModal()}
+        handleSelectedUser={(name) => handleSelectRepository(name)}
+      />
     </>
   );
 }

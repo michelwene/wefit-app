@@ -11,8 +11,10 @@ export default {
 
     shape: "#FFFFFF",
     text: "rgba(154, 154, 154, 1)",
+    text_label: "rgba(0, 0, 0, 0.6)",
+    text_input: "rgba(0, 0, 0, 0.87)",
     text_dark: "rgba(7, 7, 7, 1)",
-    text_inactiv: "rgba(0, 0, 0, 0.6)",
+    text_inactiv: "rgba(0, 0, 0, 0.06)",
   },
 
   fonts: {

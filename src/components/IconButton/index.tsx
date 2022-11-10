@@ -1,5 +1,10 @@
 import * as S from "./styles";
 
-export function IconButton({ onPress, icon }) {
+interface IconButtonProps {
+  icon: React.ReactNode;
+  onPress: () => void;
+}
+
+export function IconButton({ onPress, icon }: IconButtonProps) {
   return <S.Button onPress={onPress}>{icon}</S.Button>;
 }
