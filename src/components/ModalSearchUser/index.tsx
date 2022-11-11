@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import {
   Text,
   View,
-  Modal as ModalNative,
+  Modal,
   Pressable,
   Alert,
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
 import * as S from "./styles";
-import { Input } from "../../components/Input";
+import { Input } from "../Input";
 import { api } from "../../services/api";
 import { UserProps } from "../../screens/Home";
 import { AxiosError } from "axios";
@@ -20,7 +20,11 @@ interface ModalProps {
   handleSelectedUser: (repositories: Array<UserProps>) => void;
 }
 
-export function Modal({ isOpen, handleClose, handleSelectedUser }: ModalProps) {
+export function ModalSearchUser({
+  isOpen,
+  handleClose,
+  handleSelectedUser,
+}: ModalProps) {
   const [user, setUser] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -42,8 +46,9 @@ export function Modal({ isOpen, handleClose, handleSelectedUser }: ModalProps) {
           return {
             id: repository.id,
             full_name: repository.full_name,
-            owner: repository.owner.login,
-            avatar_url: repository.owner.avatar_url,
+            owner: {
+              avatar_url: repository.owner.avatar_url,
+            },
             language: repository.language,
             description: repository.description,
             stargazers_count: repository.stargazers_count,
@@ -73,7 +78,7 @@ export function Modal({ isOpen, handleClose, handleSelectedUser }: ModalProps) {
   }
 
   return (
-    <ModalNative
+    <Modal
       transparent={true}
       animationType="slide"
       visible={isOpen}
@@ -102,7 +107,7 @@ export function Modal({ isOpen, handleClose, handleSelectedUser }: ModalProps) {
           </S.WrapperButtons>
         </S.ModalContainer>
       </S.Container>
-    </ModalNative>
+    </Modal>
   );
 }
 

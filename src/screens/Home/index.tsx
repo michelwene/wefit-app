@@ -1,18 +1,18 @@
 import React, { useEffect, useMemo, useState } from "react";
 import * as S from "./styles";
 import { FontAwesome } from "@expo/vector-icons";
-import { Modal } from "../../components/Modal";
+import { ModalSearchUser } from "../../components/ModalSearchUser";
 import { IconButton } from "../../components/IconButton";
 import { ListRenderItem, Text } from "react-native";
 import { Card } from "../../components/Card";
 import axios, { AxiosError } from "axios";
 import { EmptyMessage } from "../../components/EmptyMessage";
+import { DetailModal } from "../../components/DetailModal";
 
 export interface UserProps {
   id: number;
   full_name: string;
   owner: {
-    login: string;
     avatar_url: string;
   };
   language: string;
@@ -22,14 +22,24 @@ export interface UserProps {
 
 export function Home() {
   const [repositories, setRepositories] = useState<Array<UserProps>>([]);
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenModalSearchUser, setIsOpenModalSearchUser] = useState(false);
+  const [isOpenModalDetailRepository, setIsOpenModalDetailRepository] =
+    useState(false);
 
-  function handleOpenModal() {
-    setIsOpenModal(true);
+  function handleOpenModalSearchUser() {
+    setIsOpenModalSearchUser(true);
   }
 
-  function handleCloseModal() {
-    setIsOpenModal(false);
+  function handleOpenModalDetailUser() {
+    setIsOpenModalDetailRepository(true);
+  }
+
+  function handleCloseModalSearchUser() {
+    setIsOpenModalSearchUser(false);
+  }
+
+  function handleCloseModalDetailUser() {
+    setIsOpenModalDetailRepository(false);
   }
 
   const Item = ({ data }: { data: UserProps }) => (
@@ -37,11 +47,11 @@ export function Home() {
       description={data.description}
       language={data.language}
       image={{
-        uri: data.avatar_url,
+        uri: data.owner.avatar_url,
       }}
       stars={data.stargazers_count}
       title={data.full_name}
-      onPress={() => {}}
+      onPress={() => handleOpenModalDetailUser()}
     />
   );
 
@@ -54,7 +64,7 @@ export function Home() {
         <S.Header>
           <S.Title>WeFit</S.Title>
           <IconButton
-            onPress={() => handleOpenModal()}
+            onPress={() => handleOpenModalSearchUser()}
             icon={<FontAwesome name="gear" size={25} color="black" />}
           />
         </S.Header>
@@ -73,10 +83,14 @@ export function Home() {
           )}
         </S.Content>
       </S.Container>
-      <Modal
-        isOpen={isOpenModal}
-        handleClose={() => handleCloseModal()}
+      <ModalSearchUser
+        isOpen={isOpenModalSearchUser}
+        handleClose={() => handleCloseModalSearchUser()}
         handleSelectedUser={(repositories) => setRepositories(repositories)}
+      />
+      <DetailModal
+        isOpen={isOpenModalDetailRepository}
+        handleClose={() => handleCloseModalDetailUser()}
       />
     </>
   );

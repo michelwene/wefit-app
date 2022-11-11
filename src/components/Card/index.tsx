@@ -1,3 +1,6 @@
+import { Description } from "../Description";
+import { Language } from "../Language";
+import { Title } from "../Title";
 import * as S from "./styles";
 
 interface CardProps {
@@ -19,18 +22,13 @@ export function Card({
   onPress,
 }: CardProps) {
   return (
-    <S.Card>
+    <S.Card onPress={onPress}>
       <S.CardHeader>
-        <S.CardTitle>
-          {title.split("/")[0]}/
-          <S.CardTitleBold>{title.split("/")[1]}</S.CardTitleBold>
-        </S.CardTitle>
+        <Title title={title} />
         <S.CardAvatar source={image} resizeMode="cover" borderRadius={50} />
       </S.CardHeader>
       <S.CardContent>
-        <S.CardContentDescription>
-          <S.CardDescription>{description}</S.CardDescription>
-        </S.CardContentDescription>
+        <Description description={description} />
         <S.CardFooter>
           <S.CardFooterButton>
             <S.CardFooterStarIcon name="star-sharp" />
@@ -41,12 +39,7 @@ export function Card({
             <S.CardFooterStarIcon name="star-sharp" />
             <S.CardFooterNumberStars>{stars}</S.CardFooterNumberStars>
           </S.CardFooterStars>
-          <S.CardFooterLanguage>
-            <S.CardFooterLanguageIcon name="circle" />
-            <S.CardFooterLanguageText>
-              {language || "N/C"}
-            </S.CardFooterLanguageText>
-          </S.CardFooterLanguage>
+          <Language language={language} />
         </S.CardFooter>
       </S.CardContent>
     </S.Card>

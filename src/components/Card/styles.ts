@@ -1,9 +1,8 @@
 import styled from "styled-components/native";
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import { RFValue } from "react-native-responsive-fontsize";
 import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
 
-export const Card = styled.View`
+export const Card = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.colors.shape};
   border-radius: 4px;
 
@@ -33,24 +32,6 @@ export const CardHeader = styled.View`
   border-color: ${({ theme }) => theme.colors.border_bottom};
 `;
 
-export const CardTitle = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.regular};
-  font-size: ${RFValue(12)}px;
-  font-weight: 400;
-
-  color: "#070707";
-
-  line-height: 15px;
-`;
-
-export const CardTitleBold = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.bold};
-  font-size: ${RFValue(12)}px;
-
-  color: ${({ theme }) => theme.colors.text_dark};
-  line-height: 15px;
-`;
-
 export const CardAvatar = styled.ImageBackground`
   width: 30px;
   height: 30px;
@@ -65,23 +46,6 @@ export const CardContent = styled.View`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-`;
-
-export const CardContentDescription = styled.View`
-  width: 100%;
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-export const CardDescription = styled.Text`
-  color: ${({ theme }) => theme.colors.text};
-
-  font-family: ${({ theme }) => theme.fonts.regular};
-  font-size: ${RFValue(12)}px;
-
-  line-height: 15px;
 `;
 
 export const CardFooter = styled.View`
@@ -135,25 +99,4 @@ export const CardFooterNumberStars = styled.Text`
   line-height: 15px;
 
   margin-left: 8px;
-`;
-
-export const CardFooterLanguage = styled.View`
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-export const CardFooterLanguageIcon = styled(FontAwesome)`
-  color: ${({ theme }) => theme.colors.language};
-  font-size: ${RFValue(8)}px;
-`;
-
-export const CardFooterLanguageText = styled.Text`
-  color: ${({ theme }) => theme.colors.text};
-  font-family: ${({ theme }) => theme.fonts.regular};
-  font-size: ${RFValue(12)}px;
-  line-height: 15px;
-
-  margin-left: 6px;
 `;
