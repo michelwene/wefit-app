@@ -5,6 +5,7 @@ import { FontAwesome } from "@expo/vector-icons";
 
 export const Card = styled.View`
   background-color: ${({ theme }) => theme.colors.shape};
+  border-radius: 4px;
 
   align-items: center;
   display: flex;
@@ -15,6 +16,7 @@ export const Card = styled.View`
 
   margin-left: 16px;
   margin-right: 16px;
+  margin-bottom: 16px;
 `;
 
 export const CardHeader = styled.View`
@@ -49,13 +51,9 @@ export const CardTitleBold = styled.Text`
   line-height: 15px;
 `;
 
-export const CardAvatar = styled.Image`
+export const CardAvatar = styled.ImageBackground`
   width: 30px;
   height: 30px;
-
-  border: 1px solid #000;
-
-  border-radius: 50px;
 `;
 
 export const CardContent = styled.View`

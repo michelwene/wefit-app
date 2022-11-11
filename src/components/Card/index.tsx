@@ -3,7 +3,9 @@ import * as S from "./styles";
 interface CardProps {
   title: string;
   description: string;
-  image: string;
+  image: {
+    uri: string;
+  };
   stars: number;
   language: string;
   onPress: () => void;
@@ -23,7 +25,7 @@ export function Card({
           {title.split("/")[0]}/
           <S.CardTitleBold>{title.split("/")[1]}</S.CardTitleBold>
         </S.CardTitle>
-        <S.CardAvatar />
+        <S.CardAvatar source={image} resizeMode="cover" borderRadius={50} />
       </S.CardHeader>
       <S.CardContent>
         <S.CardContentDescription>
@@ -41,7 +43,9 @@ export function Card({
           </S.CardFooterStars>
           <S.CardFooterLanguage>
             <S.CardFooterLanguageIcon name="circle" />
-            <S.CardFooterLanguageText>{language}</S.CardFooterLanguageText>
+            <S.CardFooterLanguageText>
+              {language || "N/C"}
+            </S.CardFooterLanguageText>
           </S.CardFooterLanguage>
         </S.CardFooter>
       </S.CardContent>

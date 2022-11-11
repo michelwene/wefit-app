@@ -9,11 +9,14 @@ import {
 } from "react-native";
 import * as S from "./styles";
 import { Input } from "../../components/Input";
+import { api } from "../../services/api";
+import { UserProps } from "../../screens/Home";
+import { AxiosError } from "axios";
 
 interface ModalProps {
   isOpen: boolean;
   handleClose: () => void;
-  handleSelectedUser: (name: string) => void;
+  handleSelectedUser: (repositories: Array<UserProps>) => void;
 }
 
 export function Modal({ isOpen, handleClose, handleSelectedUser }: ModalProps) {
@@ -23,13 +26,39 @@ export function Modal({ isOpen, handleClose, handleSelectedUser }: ModalProps) {
     setUser(text);
   }
 
-  function handleConfirm() {
-    if (user) {
-      handleSelectedUser(user);
+  async function handleSelectRepository(name: string) {
+    try {
+      const response = await api.get(`/${name}/repos`);
+      const apiRepositories: Array<UserProps> = response.data.map(
+        (repository: UserProps) => {
+          return {
+            id: repository.id,
+            full_name: repository.full_name,
+            owner: repository.owner.login,
+            avatar_url: repository.owner.avatar_url,
+            language: repository.language,
+            description: repository.description,
+            stargazers_count: repository.stargazers_count,
+          };
+        }
+      );
+      handleSelectedUser(apiRepositories);
       handleClose();
       setUser("");
+    } catch (error) {
+      const err = error as AxiosError;
+      if (err.response && err.response.status === 404) {
+        return Alert.alert("Usuário não encontrado");
+      }
+      return Alert.alert("Ocorreu um erro ao buscar repositórios");
+    }
+  }
+
+  function handleConfirm() {
+    if (user) {
+      handleSelectRepository(user);
     } else {
-      Alert.alert("Digite o nome do usuário");
+      Alert.alert("Digite o nome do usuário", "O campo não pode estar vazio");
     }
   }
 

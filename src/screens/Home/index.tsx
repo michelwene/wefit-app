@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import * as S from "./styles";
 import { FontAwesome } from "@expo/vector-icons";
 import { Modal } from "../../components/Modal";
 import { IconButton } from "../../components/IconButton";
 import { api } from "../../services/api";
-import { Text } from "react-native";
+import { FlatList, ListRenderItem, Text } from "react-native";
 import { Card } from "../../components/Card";
+import axios, { AxiosError } from "axios";
+import { EmptyMessage } from "../../components/EmptyMessage";
 
-interface UserProps {
+export interface UserProps {
   id: number;
-  name: string;
+  full_name: string;
   owner: {
     login: string;
     avatar_url: string;
@@ -20,7 +22,7 @@ interface UserProps {
 }
 
 export function Home() {
-  const [repositories, setRepositories] = useState<UserProps[]>([]);
+  const [repositories, setRepositories] = useState<Array<UserProps>>([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   function handleOpenModal() {
@@ -31,25 +33,22 @@ export function Home() {
     setIsOpenModal(false);
   }
 
-  async function handleSelectRepository(name: string) {
-    try {
-      const response = await api.get(`/${name}/repos`);
-      const repositories = response.data.map((repository: UserProps) => {
-        return {
-          id: repository.id,
-          name: repository.name,
-          owner: repository.owner.login,
-          avatar_url: repository.owner.avatar_url,
-          language: repository.language,
-          description: repository.description,
-          stargazers_count: repository.stargazers_count,
-        };
-      });
-      setRepositories(repositories);
-    } catch (error) {
-      console.log("deu erro mano");
-    }
-  }
+  const Item = ({ data }: { data: UserProps }) => (
+    <Card
+      description={data.description}
+      language={data.language}
+      image={{
+        uri: data.owner.avatar_url,
+      }}
+      stars={data.stargazers_count}
+      title={data.full_name}
+      onPress={() => {}}
+    />
+  );
+
+  const renderCard: ListRenderItem<UserProps> = ({ item }) => (
+    <Item data={item} />
+  );
 
   return (
     <>
@@ -62,20 +61,24 @@ export function Home() {
           />
         </S.Header>
         <S.Content>
-          <Card
-            title="appswefit/create-react-app"
-            description="Yarn Workspaces Monorepo support for Create-React-App / React-Scripts."
-            stars={110}
-            language="TypeScript"
-            image=""
-            onPress={() => {}}
-          />
+          {repositories.length > 0 ? (
+            <S.CardList
+              data={repositories}
+              renderItem={renderCard}
+              keyExtractor={(repository: UserProps) => repository.id}
+            />
+          ) : (
+            <EmptyMessage
+              title="Nenhum repositório encontrado"
+              message="Aperte na engrenagem para selecionar um novo usuário"
+            />
+          )}
         </S.Content>
       </S.Container>
       <Modal
         isOpen={isOpenModal}
         handleClose={() => handleCloseModal()}
-        handleSelectedUser={(name) => handleSelectRepository(name)}
+        handleSelectedUser={(repositories) => setRepositories(repositories)}
       />
     </>
   );
