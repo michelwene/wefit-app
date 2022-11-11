@@ -3,8 +3,7 @@ import * as S from "./styles";
 import { FontAwesome } from "@expo/vector-icons";
 import { Modal } from "../../components/Modal";
 import { IconButton } from "../../components/IconButton";
-import { api } from "../../services/api";
-import { FlatList, ListRenderItem, Text } from "react-native";
+import { ListRenderItem, Text } from "react-native";
 import { Card } from "../../components/Card";
 import axios, { AxiosError } from "axios";
 import { EmptyMessage } from "../../components/EmptyMessage";
@@ -38,7 +37,7 @@ export function Home() {
       description={data.description}
       language={data.language}
       image={{
-        uri: data.owner.avatar_url,
+        uri: data.avatar_url,
       }}
       stars={data.stargazers_count}
       title={data.full_name}
@@ -49,7 +48,6 @@ export function Home() {
   const renderCard: ListRenderItem<UserProps> = ({ item }) => (
     <Item data={item} />
   );
-
   return (
     <>
       <S.Container>

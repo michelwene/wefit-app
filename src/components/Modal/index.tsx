@@ -6,6 +6,7 @@ import {
   Pressable,
   Alert,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import * as S from "./styles";
 import { Input } from "../../components/Input";
@@ -21,13 +22,20 @@ interface ModalProps {
 
 export function Modal({ isOpen, handleClose, handleSelectedUser }: ModalProps) {
   const [user, setUser] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleChangeText(text: string) {
     setUser(text);
   }
 
+  function onRequestCloseModal() {
+    setUser("");
+    handleClose();
+  }
+
   async function handleSelectRepository(name: string) {
     try {
+      setIsLoading(true);
       const response = await api.get(`/${name}/repos`);
       const apiRepositories: Array<UserProps> = response.data.map(
         (repository: UserProps) => {
@@ -48,9 +56,11 @@ export function Modal({ isOpen, handleClose, handleSelectedUser }: ModalProps) {
     } catch (error) {
       const err = error as AxiosError;
       if (err.response && err.response.status === 404) {
-        return Alert.alert("Usuário não encontrado");
+        return Alert.alert("Usuário não encontrado", "Tente novamente");
       }
       return Alert.alert("Ocorreu um erro ao buscar repositórios");
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -80,11 +90,14 @@ export function Modal({ isOpen, handleClose, handleSelectedUser }: ModalProps) {
             value={user}
           />
           <S.WrapperButtons>
-            <S.ButtonClose onPress={() => handleClose()}>
+            <S.ButtonClose onPress={() => onRequestCloseModal()}>
               <S.TextButtonClose>cancelar</S.TextButtonClose>
             </S.ButtonClose>
             <S.ButtonSubmit onPress={() => handleConfirm()}>
-              <S.TextButtonSubmit>Salvar</S.TextButtonSubmit>
+              {isLoading && <S.Loading />}
+              <S.TextButtonSubmit disabled={isLoading}>
+                Salvar
+              </S.TextButtonSubmit>
             </S.ButtonSubmit>
           </S.WrapperButtons>
         </S.ModalContainer>
