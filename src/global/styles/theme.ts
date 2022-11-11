@@ -5,12 +5,13 @@ export default {
     background_dark: "rgba(0, 0, 0, 1)",
 
     bg_btn_secondary: " #FAF3DC",
-    text_btn_secondary: "rgba(255, 208, 44, 1)",
+    text_btn_secondary: "#FFD02C",
 
-    language: "rgba(242, 40, 40, 1)",
+    language: "#F22828",
+    border_bottom: "#dadada",
 
     shape: "#FFFFFF",
-    text: "rgba(154, 154, 154, 1)",
+    text: "#9A9A9A",
     text_label: "rgba(0, 0, 0, 0.6)",
     text_input: "rgba(0, 0, 0, 0.87)",
     text_dark: "rgba(7, 7, 7, 1)",

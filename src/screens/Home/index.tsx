@@ -4,6 +4,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import { Modal } from "../../components/Modal";
 import { IconButton } from "../../components/IconButton";
 import { api } from "../../services/api";
+import { Text } from "react-native";
+import { Card } from "../../components/Card";
 
 interface UserProps {
   id: number;
@@ -43,7 +45,7 @@ export function Home() {
           stargazers_count: repository.stargazers_count,
         };
       });
-      console.log(repositories);
+      setRepositories(repositories);
     } catch (error) {
       console.log("deu erro mano");
     }
@@ -59,6 +61,16 @@ export function Home() {
             icon={<FontAwesome name="gear" size={25} color="black" />}
           />
         </S.Header>
+        <S.Content>
+          <Card
+            title="appswefit/create-react-app"
+            description="Yarn Workspaces Monorepo support for Create-React-App / React-Scripts."
+            stars={110}
+            language="TypeScript"
+            image=""
+            onPress={() => {}}
+          />
+        </S.Content>
       </S.Container>
       <Modal
         isOpen={isOpenModal}

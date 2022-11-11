@@ -3,36 +3,6 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 
-export const Container = styled.View`
-  flex: 1;
-
-  background-color: ${({ theme }) => theme.colors.background};
-`;
-
-export const Header = styled.View`
-  width: 100%;
-  height: ${RFPercentage(12)}px;
-  background-color: ${({ theme }) => theme.colors.shape};
-
-  padding: 0px 16px 0px 16px;
-
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: row;
-`;
-
-export const Title = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.medium};
-  font-size: ${RFValue(20)}px;
-`;
-
-export const Content = styled.ScrollView`
-  flex: 1;
-  width: 100%;
-
-  margin-top: 16px;
-`;
-
 export const Card = styled.View`
   background-color: ${({ theme }) => theme.colors.shape};
 
@@ -106,6 +76,7 @@ export const CardContentDescription = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `;
+
 export const CardDescription = styled.Text`
   color: ${({ theme }) => theme.colors.text};
 
