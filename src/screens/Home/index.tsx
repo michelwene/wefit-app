@@ -8,20 +8,8 @@ import { EmptyMessage } from "../../components/EmptyMessage";
 import { DetailModal } from "../../components/DetailModal";
 import { Header } from "../../components/Header";
 import { useStorage } from "../../context/StorageContext";
-import { NetworkConsumer, useIsConnected } from "react-native-offline";
-
-export type UserProps = {
-  id: number;
-  full_name: string;
-  owner: {
-    avatar_url: string;
-  };
-  language: string;
-  description: string;
-  stargazers_count: number;
-  html_url: string;
-  isFavorited: boolean;
-};
+import { NetworkConsumer } from "react-native-offline";
+import { UserProps } from "../../types/User";
 
 export function Home() {
   const [isConnected, setIsConnected] = useState(true);

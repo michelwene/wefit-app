@@ -1,20 +1,9 @@
+import { CardProps } from "../../types/Card";
 import { Description } from "../Description";
 import { Language } from "../Language";
 import { Title } from "../Title";
 import * as S from "./styles";
 
-interface CardProps {
-  title: string;
-  description: string;
-  image: {
-    uri: string;
-  };
-  stars: number;
-  language: string;
-  onPress: () => void;
-  onFavorite: () => void;
-  isFavorited: boolean;
-}
 export function Card({
   title,
   description,

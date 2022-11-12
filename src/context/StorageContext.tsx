@@ -1,15 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useState, useMemo, useContext, useEffect } from "react";
 import { Alert } from "react-native";
-import { UserProps } from "../screens/Home";
-
-type StorageContextData = {
-  storeRepository: (value: UserProps) => void;
-  getMultiple: () => Promise<void>;
-  repositoriesFromStorage: UserProps[];
-  handleAddRepositories: (value: UserProps[]) => void;
-  repositoriesFiltered: UserProps[];
-};
+import { StorageContextData } from "../types/StorageContext";
+import { UserProps } from "../types/User";
 
 interface StorageContextProps {
   children: React.ReactNode;

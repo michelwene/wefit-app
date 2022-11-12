@@ -15,14 +15,6 @@ import { AppRoutes } from "./src/routes/app.routes";
 import { StorageProvider } from "./src/context/StorageContext";
 import { NetworkProvider } from "react-native-offline";
 
-type NetworkState = {
-  isConnected: boolean;
-};
-
-// type Props = {
-//   children: ({ isConnected }: NetworkState) => React.Node;
-// };
-
 export default function App() {
   const [isFontsLoaded] = useFonts({
     Inter_400Regular,

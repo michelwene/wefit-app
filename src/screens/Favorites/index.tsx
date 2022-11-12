@@ -1,17 +1,17 @@
 import * as S from "./styles";
 import { Header } from "../../components/Header";
 import { useState } from "react";
-import { UserProps } from "../Home";
 import { Card } from "../../components/Card";
-import { ListRenderItem, Text, Alert } from "react-native";
+import { ListRenderItem, Alert } from "react-native";
 import { EmptyMessage } from "../../components/EmptyMessage";
 import { useStorage } from "../../context/StorageContext";
 import { DetailModal } from "../../components/DetailModal";
 import { ModalSearchUser } from "../../components/ModalSearchUser";
-import { Props } from "../RootStackParams";
+import { PropsRoutes } from "../RootStackParams";
 import { NetworkConsumer } from "react-native-offline";
+import { UserProps } from "../../types/User";
 
-export function Favorites({ navigation }: Props) {
+export function Favorites({ navigation }: PropsRoutes) {
   const [isOpenModalSearchUser, setIsOpenModalSearchUser] = useState(false);
   const { repositoriesFromStorage, storeRepository, handleAddRepositories } =
     useStorage();

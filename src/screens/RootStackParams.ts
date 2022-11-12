@@ -5,4 +5,4 @@ export type RootStackParamList = {
   Favoritos: undefined;
 };
 
-export type Props = NativeStackScreenProps<RootStackParamList>;
+export type PropsRoutes = NativeStackScreenProps<RootStackParamList>;

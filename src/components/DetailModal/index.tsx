@@ -1,9 +1,9 @@
 import { Modal, Text, Linking, Alert } from "react-native";
+import { UserProps } from "../../types/User";
 import { Description } from "../Description";
 import { Language } from "../Language";
 import { Title } from "../Title";
 import * as S from "./styles";
-import { UserProps } from "../../screens/Home";
 
 interface DetailModalProps {
   isOpen: boolean;

@@ -3,8 +3,8 @@ import { Modal, Alert } from "react-native";
 import * as S from "./styles";
 import { Input } from "../Input";
 import { api } from "../../services/api";
-import { UserProps } from "../../screens/Home";
 import { AxiosError } from "axios";
+import { UserProps } from "../../types/User";
 
 interface ModalProps {
   isOpen: boolean;
