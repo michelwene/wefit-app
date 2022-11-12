@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Text,
-  View,
-  Modal,
-  Pressable,
-  Alert,
-  StyleSheet,
-  ActivityIndicator,
-} from "react-native";
+import { Modal, Alert, StyleSheet } from "react-native";
 import * as S from "./styles";
 import { Input } from "../Input";
 import { api } from "../../services/api";

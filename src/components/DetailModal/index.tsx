@@ -5,21 +5,13 @@ import { Language } from "../Language";
 import { Title } from "../Title";
 import * as S from "./styles";
 import { useState, useEffect } from "react";
-
-type Repository = {
-  id: number;
-  title: string;
-  description: string;
-  language: string;
-  link: string;
-  isFavorited: boolean;
-};
+import { UserProps } from "../../screens/Home";
 
 interface DetailModalProps {
   isOpen: boolean;
   handleClose: () => void;
-  repository: Repository;
-  storeRepository: (value: Repository) => void;
+  repository: UserProps;
+  storeRepository: (value: UserProps) => void;
 }
 
 export function DetailModal({
@@ -28,15 +20,9 @@ export function DetailModal({
   repository,
   storeRepository,
 }: DetailModalProps) {
-  const [isFavorite, setIsFavorite] = useState(repository.isFavorited);
-
   function handleOpenLink() {
-    Linking.openURL(repository.link);
+    Linking.openURL(repository.html_url);
   }
-
-  useEffect(() => {
-    setIsFavorite(repository.isFavorited);
-  }, [repository.isFavorited]);
 
   return (
     <Modal
@@ -53,7 +39,7 @@ export function DetailModal({
         </S.ModalHeader>
         <S.Content>
           <S.Info>
-            <Title title={repository.title} />
+            <Title title={repository.full_name} />
             <S.ContentDescription>
               <Description description={repository.description} />
             </S.ContentDescription>
@@ -68,23 +54,27 @@ export function DetailModal({
                 <S.ButtonLinkIcon name="link" />
               </S.ButtonLink>
               <S.ButtonFavorite
-                isFavorite={isFavorite}
+                isFavorite={repository.isFavorited}
                 onPress={() =>
                   storeRepository({
                     id: repository.id,
-                    title: repository.title,
+                    full_name: repository.full_name,
                     description: repository.description,
                     language: repository.language,
-                    link: repository.link,
-                    isFavorited: isFavorite,
+                    html_url: repository.html_url,
+                    isFavorited: repository.isFavorited,
+                    owner: {
+                      avatar_url: repository.owner.avatar_url,
+                    },
+                    stargazers_count: repository.stargazers_count,
                   })
                 }
               >
                 <S.ButtonFavoriteText>
-                  {isFavorite ? "desfavoritar" : "favoritar"}
+                  {repository.isFavorited ? "desfavoritar" : "favoritar"}
                 </S.ButtonFavoriteText>
                 <S.ButtonFavoriteIcon
-                  name={isFavorite ? "star-outline" : "star-sharp"}
+                  name={repository.isFavorited ? "star-outline" : "star-sharp"}
                 />
               </S.ButtonFavorite>
             </S.WrapperButtons>

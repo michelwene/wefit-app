@@ -1,14 +1,13 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import { Alert } from "react-native";
 import * as S from "./styles";
-import { FontAwesome } from "@expo/vector-icons";
 import { ModalSearchUser } from "../../components/ModalSearchUser";
-import { IconButton } from "../../components/IconButton";
-import { ListRenderItem, Text } from "react-native";
+import { ListRenderItem } from "react-native";
 import { Card } from "../../components/Card";
 import { EmptyMessage } from "../../components/EmptyMessage";
 import { DetailModal } from "../../components/DetailModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Header } from "../../components/Header";
 
 export type UserProps = {
   id: number;
@@ -46,6 +45,7 @@ export function Home() {
   }
 
   function handleCloseModalDetailUser() {
+    setSelectedRepository({});
     setIsOpenModalDetailRepository(false);
   }
 
@@ -99,6 +99,10 @@ export function Home() {
           language: data.language,
           html_url: data.html_url,
           isFavorited: data.isFavorited,
+          owner: {
+            avatar_url: data.owner.avatar_url,
+          },
+          stargazers_count: data.stargazers_count,
         })
       }
       isFavorited={data.isFavorited}
@@ -108,16 +112,11 @@ export function Home() {
   const renderCard: ListRenderItem<UserProps> = ({ item }) => (
     <Item data={item} />
   );
+
   return (
     <>
       <S.Container>
-        <S.Header>
-          <S.Title>WeFit</S.Title>
-          <IconButton
-            onPress={() => handleOpenModalSearchUser()}
-            icon={<FontAwesome name="gear" size={25} color="black" />}
-          />
-        </S.Header>
+        <Header onPress={() => handleOpenModalSearchUser()} />
         <S.Content>
           {repositories.length > 0 ? (
             <S.CardList
@@ -143,13 +142,16 @@ export function Home() {
         handleClose={() => handleCloseModalDetailUser()}
         repository={{
           id: selectedRepository.id || 0,
-          title: selectedRepository.full_name || "",
+          full_name: selectedRepository.full_name || "",
           description: selectedRepository.description || "",
           language: selectedRepository.language || "",
-          link: selectedRepository.html_url || "",
+          html_url: selectedRepository.html_url || "",
           isFavorited: selectedRepository.isFavorited || false,
+          owner: {
+            avatar_url: selectedRepository.owner?.avatar_url || "",
+          },
         }}
-        storeRepository={storeRepository}
+        storeRepository={(values) => storeRepository(values)}
       />
     </>
   );
