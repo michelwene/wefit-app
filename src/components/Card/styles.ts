@@ -2,6 +2,10 @@ import styled from "styled-components/native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { Ionicons } from "@expo/vector-icons";
 
+interface FavoriteProps {
+  isFavorite: boolean;
+}
+
 export const Card = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.colors.shape};
   border-radius: 4px;
@@ -58,7 +62,7 @@ export const CardFooter = styled.View`
   justify-content: space-between;
 `;
 
-export const CardFooterButton = styled.TouchableOpacity`
+export const CardFooterButton = styled.TouchableOpacity<FavoriteProps>`
   align-items: center;
   display: flex;
   flex-direction: row;
@@ -66,8 +70,22 @@ export const CardFooterButton = styled.TouchableOpacity`
 
   padding: 8px 10px;
 
-  background-color: ${({ theme }) => theme.colors.bg_btn_secondary};
+  background-color: ${({ theme, isFavorite }) =>
+    isFavorite ? theme.colors.shape : theme.colors.bg_btn_secondary};
+
+  border: ${({ theme, isFavorite }) =>
+    isFavorite ? `1px solid ${theme.colors.background_dark}` : "none"};
+
   border-radius: 4px;
+`;
+
+export const CardFooterButtonIcon = styled(Ionicons)<FavoriteProps>`
+  color: ${({ theme, isFavorite }) =>
+    isFavorite
+      ? theme.colors.background_dark
+      : theme.colors.text_btn_secondary};
+
+  font-size: ${RFValue(20)}px;
 `;
 
 export const CardFooterStarIcon = styled(Ionicons)`
@@ -75,14 +93,15 @@ export const CardFooterStarIcon = styled(Ionicons)`
   font-size: ${RFValue(20)}px;
 `;
 
-export const CardFooterButtonText = styled.Text`
+export const CardFooterButtonText = styled.Text<FavoriteProps>`
   font-family: ${({ theme }) => theme.fonts.bold};
   font-size: ${RFValue(12)}px;
   line-height: 15px;
 
   margin-left: 10px;
 
-  color: ${({ theme }) => theme.colors.text_btn_secondary};
+  color: ${({ theme, isFavorite }) =>
+    isFavorite ? theme.colors.text_dark : theme.colors.text_btn_secondary};
 `;
 
 export const CardFooterStars = styled.View`

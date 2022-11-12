@@ -52,6 +52,8 @@ export function ModalSearchUser({
             language: repository.language,
             description: repository.description,
             stargazers_count: repository.stargazers_count,
+            html_url: repository.html_url,
+            isFavorited: false,
           };
         }
       );

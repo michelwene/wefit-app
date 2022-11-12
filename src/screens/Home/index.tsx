@@ -1,15 +1,16 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { Alert } from "react-native";
 import * as S from "./styles";
 import { FontAwesome } from "@expo/vector-icons";
 import { ModalSearchUser } from "../../components/ModalSearchUser";
 import { IconButton } from "../../components/IconButton";
 import { ListRenderItem, Text } from "react-native";
 import { Card } from "../../components/Card";
-import axios, { AxiosError } from "axios";
 import { EmptyMessage } from "../../components/EmptyMessage";
 import { DetailModal } from "../../components/DetailModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export interface UserProps {
+export type UserProps = {
   id: number;
   full_name: string;
   owner: {
@@ -18,19 +19,25 @@ export interface UserProps {
   language: string;
   description: string;
   stargazers_count: number;
-}
+  html_url: string;
+  isFavorited: boolean;
+};
 
 export function Home() {
   const [repositories, setRepositories] = useState<Array<UserProps>>([]);
   const [isOpenModalSearchUser, setIsOpenModalSearchUser] = useState(false);
   const [isOpenModalDetailRepository, setIsOpenModalDetailRepository] =
     useState(false);
+  const [selectedRepository, setSelectedRepository] = useState<
+    Partial<UserProps>
+  >({});
 
   function handleOpenModalSearchUser() {
     setIsOpenModalSearchUser(true);
   }
 
-  function handleOpenModalDetailUser() {
+  function handleOpenModalDetailUser(repository: UserProps) {
+    setSelectedRepository(repository);
     setIsOpenModalDetailRepository(true);
   }
 
@@ -42,6 +49,38 @@ export function Home() {
     setIsOpenModalDetailRepository(false);
   }
 
+  const storeRepository = async (value: Partial<UserProps>) => {
+    try {
+      if (value.isFavorited) {
+        try {
+          await AsyncStorage.removeItem(`@repository_Key${value.id}`);
+          const newRepositories = repositories.map((repository) => {
+            if (repository.id === value.id) {
+              repository.isFavorited = false;
+            }
+            return repository;
+          });
+          setRepositories(newRepositories);
+          return;
+        } catch (e) {
+          Alert.alert("Erro ao remover repositório dos favoritos");
+        }
+      } else {
+        const jsonValue = JSON.stringify(value);
+        await AsyncStorage.setItem(`@repository_Key${value.id}`, jsonValue);
+        const newRepositories = repositories.map((repository) => {
+          if (repository.id === value.id) {
+            repository.isFavorited = true;
+          }
+          return repository;
+        });
+        setRepositories(newRepositories);
+      }
+    } catch (e) {
+      Alert.alert("Erro ao salvar o repositório");
+    }
+  };
+
   const Item = ({ data }: { data: UserProps }) => (
     <Card
       description={data.description}
@@ -51,7 +90,18 @@ export function Home() {
       }}
       stars={data.stargazers_count}
       title={data.full_name}
-      onPress={() => handleOpenModalDetailUser()}
+      onPress={() => handleOpenModalDetailUser(data)}
+      onFavorite={() =>
+        storeRepository({
+          id: data.id,
+          full_name: data.full_name,
+          description: data.description,
+          language: data.language,
+          html_url: data.html_url,
+          isFavorited: data.isFavorited,
+        })
+      }
+      isFavorited={data.isFavorited}
     />
   );
 
@@ -91,6 +141,15 @@ export function Home() {
       <DetailModal
         isOpen={isOpenModalDetailRepository}
         handleClose={() => handleCloseModalDetailUser()}
+        repository={{
+          id: selectedRepository.id || 0,
+          title: selectedRepository.full_name || "",
+          description: selectedRepository.description || "",
+          language: selectedRepository.language || "",
+          link: selectedRepository.html_url || "",
+          isFavorited: selectedRepository.isFavorited || false,
+        }}
+        storeRepository={storeRepository}
       />
     </>
   );

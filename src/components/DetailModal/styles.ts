@@ -1,12 +1,16 @@
 import styled from "styled-components/native";
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import { AntDesign } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
+import { AntDesign, MaterialIcons, Ionicons } from "@expo/vector-icons";
 import { Dimensions } from "react-native";
+
+interface FavoriteProps {
+  isFavorite: boolean;
+}
 
 export const Container = styled.View`
   flex: 1;
   align-items: center;
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const ModalHeader = styled.View`
@@ -39,60 +43,110 @@ export const ModalHeaderTitle = styled.Text`
   margin-left: 16px;
 `;
 
-export const ModalContainer = styled.View`
+export const Content = styled.View`
   width: 100%;
-  background-color: white;
+
   border-radius: 4px 4px 0px 0px;
-  padding: 35px;
   align-items: center;
+  justify-content: space-between;
+
+  flex: 1;
 `;
 
-export const ModalContent = styled.View`
+export const Info = styled.View`
+  background-color: ${({ theme }) => theme.colors.shape};
+  border-radius: 4px;
+  padding: 16px;
+
   width: 100%;
 `;
 
-export const ContentTitle = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.regular};
-  font-size: ${RFValue(12)}px;
-  font-weight: 400;
+export const ContentDescription = styled.View`
+  margin-top: 16px;
 
-  color: "#070707";
-
-  line-height: 15px;
-`;
-
-export const ContentTitleBold = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.bold};
-  font-size: ${RFValue(12)}px;
-
-  color: ${({ theme }) => theme.colors.text_dark};
-  line-height: 15px;
+  width: 100%;
 `;
 
 export const ContentLanguage = styled.View`
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  margin-top: 16px;
+  width: 100%;
 `;
 
-export const LanguageIcon = styled(FontAwesome)`
-  color: ${({ theme }) => theme.colors.language};
-  font-size: ${RFValue(8)}px;
-`;
+export const Footer = styled.View`
+  width: 100%;
+  background-color: ${({ theme }) => theme.colors.shape};
 
-export const LanguageText = styled.Text`
-  color: ${({ theme }) => theme.colors.text};
-  font-family: ${({ theme }) => theme.fonts.regular};
-  font-size: ${RFValue(12)}px;
-  line-height: 15px;
-
-  margin-left: 6px;
+  align-self: flex-end;
+  justify-content: center;
 `;
 
 export const WrapperButtons = styled.View`
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-  width: 100%;
   align-items: center;
+
+  padding: 16px;
+`;
+
+export const ButtonLink = styled.TouchableOpacity`
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+
+  width: 100%;
+  padding: 8px 11px;
+  margin-bottom: 16px;
+`;
+
+export const ButtonFavorite = styled.TouchableOpacity<FavoriteProps>`
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+
+  background-color: ${({ theme, isFavorite }) =>
+    isFavorite ? theme.colors.shape : theme.colors.text_btn_secondary};
+
+  border: ${({ theme, isFavorite }) =>
+    isFavorite ? `1px solid ${theme.colors.background_dark}` : "none"};
+  border-radius: 4px;
+
+  box-shadow: 0px 3px 1px ${({ theme }) => theme.colors.text};
+
+  width: 100%;
+  padding: 8px 11px;
+`;
+
+export const ButtonLinkText = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.medium};
+  font-size: ${RFValue(15)}px;
+  line-height: 26px;
+
+  letter-spacing: 0.46px;
+  text-transform: uppercase;
+
+  color: ${({ theme }) => theme.colors.primary};
+  margin-right: 8px;
+`;
+
+export const ButtonFavoriteText = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.medium};
+  font-size: ${RFValue(15)}px;
+  line-height: 26px;
+
+  letter-spacing: 0.46px;
+  text-transform: uppercase;
+
+  color: #000000;
+
+  margin-right: 8px;
+`;
+
+export const ButtonLinkIcon = styled(MaterialIcons)`
+  color: ${({ theme }) => theme.colors.primary};
+  font-size: ${RFValue(24)}px;
+`;
+
+export const ButtonFavoriteIcon = styled(Ionicons)`
+  color: ${({ theme }) => theme.colors.background_dark};
+  font-size: ${RFValue(24)}px;
 `;

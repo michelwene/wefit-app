@@ -12,6 +12,8 @@ interface CardProps {
   stars: number;
   language: string;
   onPress: () => void;
+  onFavorite: () => void;
+  isFavorited: boolean;
 }
 export function Card({
   title,
@@ -20,6 +22,8 @@ export function Card({
   stars,
   language,
   onPress,
+  onFavorite,
+  isFavorited,
 }: CardProps) {
   return (
     <S.Card onPress={onPress}>
@@ -30,11 +34,15 @@ export function Card({
       <S.CardContent>
         <Description description={description} />
         <S.CardFooter>
-          <S.CardFooterButton>
-            <S.CardFooterStarIcon name="star-sharp" />
-            <S.CardFooterButtonText>Favoritar</S.CardFooterButtonText>
+          <S.CardFooterButton onPress={onFavorite} isFavorite={isFavorited}>
+            <S.CardFooterButtonIcon
+              name="star-sharp"
+              isFavorite={isFavorited}
+            />
+            <S.CardFooterButtonText isFavorite={isFavorited}>
+              {isFavorited ? "Desfavoritar" : "Favoritar"}
+            </S.CardFooterButtonText>
           </S.CardFooterButton>
-
           <S.CardFooterStars>
             <S.CardFooterStarIcon name="star-sharp" />
             <S.CardFooterNumberStars>{stars}</S.CardFooterNumberStars>

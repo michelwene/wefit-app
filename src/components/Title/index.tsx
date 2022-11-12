@@ -4,7 +4,7 @@ interface TitleProps {
   title: string;
 }
 
-export function Title({ title }: TitleProps) {
+export function Title({ title = "" }: TitleProps) {
   return (
     <S.CardTitle>
       {title.split("/")[0]}/

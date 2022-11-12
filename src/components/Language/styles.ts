@@ -6,7 +6,6 @@ export const Language = styled.View`
   align-items: center;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
 `;
 
 export const LanguageIcon = styled(FontAwesome)`

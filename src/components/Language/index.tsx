@@ -4,7 +4,7 @@ interface LanguageProps {
   language: string;
 }
 
-export function Language({ language }: LanguageProps) {
+export function Language({ language = "" }: LanguageProps) {
   return (
     <S.Language>
       <S.LanguageIcon name="circle" />
