@@ -14,7 +14,9 @@ interface InputReference extends TextInput {
 export function Input({ placeholder, onChangeText, value }: InputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
+
   const inputRef = useRef<InputReference>(null);
+
   const handleInputFocus = useCallback(() => {
     setIsFocused(true);
   }, []);

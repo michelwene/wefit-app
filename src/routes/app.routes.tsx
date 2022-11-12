@@ -8,10 +8,14 @@ import {
 import { useTheme } from "styled-components";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
+import { getBottomSpace } from "react-native-iphone-x-helper";
+import { Ionicons } from "@expo/vector-icons";
 import { Home } from "../screens/Home";
 import { Favorites } from "../screens/Favorites";
+import { RootStackParamList } from "../screens/RootStackParams";
 
-const { Navigator, Screen } = createBottomTabNavigator();
+const { Navigator, Screen } = createBottomTabNavigator<RootStackParamList>();
 
 export function AppRoutes() {
   const theme = useTheme();
@@ -28,7 +32,7 @@ export function AppRoutes() {
           },
           tabBarLabelPosition: "below-icon",
           tabBarStyle: {
-            height: 88,
+            height: getBottomSpace() + 56,
             paddingVertical: Platform.OS === "ios" ? 20 : 0,
           },
         }}
@@ -47,7 +51,7 @@ export function AppRoutes() {
           component={Favorites}
           options={{
             tabBarIcon: ({ size, color }) => (
-              <FontAwesome name="star" size={size} color={color} />
+              <Ionicons name="star" size={size} color={color} />
             ),
           }}
         />

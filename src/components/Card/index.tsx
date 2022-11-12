@@ -34,15 +34,17 @@ export function Card({
       <S.CardContent>
         <Description description={description} />
         <S.CardFooter>
-          <S.CardFooterButton onPress={onFavorite} isFavorite={isFavorited}>
-            <S.CardFooterButtonIcon
-              name="star-sharp"
-              isFavorite={isFavorited}
-            />
-            <S.CardFooterButtonText isFavorite={isFavorited}>
-              {isFavorited ? "Desfavoritar" : "Favoritar"}
-            </S.CardFooterButtonText>
-          </S.CardFooterButton>
+          {isFavorited === false && (
+            <S.CardFooterButton onPress={onFavorite} isFavorite={isFavorited}>
+              <S.CardFooterButtonIcon
+                name="star-sharp"
+                isFavorite={isFavorited}
+              />
+              <S.CardFooterButtonText isFavorite={isFavorited}>
+                {isFavorited ? "Desfavoritar" : "Favoritar"}
+              </S.CardFooterButtonText>
+            </S.CardFooterButton>
+          )}
           <S.CardFooterStars>
             <S.CardFooterStarIcon name="star-sharp" />
             <S.CardFooterNumberStars>{stars}</S.CardFooterNumberStars>

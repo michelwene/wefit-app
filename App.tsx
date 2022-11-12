@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { ThemeProvider } from "styled-components/native";
 import AppLoading from "expo-app-loading";
 
@@ -11,6 +12,16 @@ import {
   Inter_700Bold,
 } from "@expo-google-fonts/inter";
 import { AppRoutes } from "./src/routes/app.routes";
+import { StorageProvider } from "./src/context/StorageContext";
+import { NetworkProvider } from "react-native-offline";
+
+type NetworkState = {
+  isConnected: boolean;
+};
+
+// type Props = {
+//   children: ({ isConnected }: NetworkState) => React.Node;
+// };
 
 export default function App() {
   const [isFontsLoaded] = useFonts({
@@ -30,7 +41,17 @@ export default function App() {
           flex: 1,
         }}
       >
-        <AppRoutes />
+        <NetworkProvider
+          pingServerUrl="https://www.google.com/"
+          pingTimeout={10000}
+          pingInterval={30000}
+          pingOnlyIfOffline={false}
+          shouldPing={true}
+        >
+          <StorageProvider>
+            <AppRoutes />
+          </StorageProvider>
+        </NetworkProvider>
       </GestureHandlerRootView>
     </ThemeProvider>
   );

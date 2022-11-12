@@ -17,7 +17,7 @@ export const LanguageText = styled.Text`
   color: ${({ theme }) => theme.colors.text};
   font-family: ${({ theme }) => theme.fonts.regular};
   font-size: ${RFValue(12)}px;
-  line-height: 15px;
 
+  line-height: 15px;
   margin-left: 6px;
 `;

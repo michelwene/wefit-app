@@ -5,34 +5,37 @@ interface PlaceholderLabelProps {
   isFilled: boolean;
 }
 export const Container = styled.View`
-  background-color: "rgba(0, 0, 0, 0.06)";
+  background-color: ${({ theme }) => theme.colors.text_inactiv};
 
   border-bottom-width: 1px;
   border-color: ${({ theme }) => theme.colors.text};
 
-  border-radius: 4px 4px 0px 0px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 
   width: 100%;
   height: 70px;
   margin: 10px 0px;
   padding: 10px 12px 8px;
 
+  align-items: flex-start;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-
   gap: 3px;
 `;
+
 export const PlaceholderLabel = styled.Text<PlaceholderLabelProps>`
+  font-size: ${RFValue(12)}px;
   font-weight: ${({ theme }) => theme.fonts.regular};
   letter-spacing: 0.15px;
   line-height: 12px;
-  font-size: ${RFValue(12)}px;
 
-  position: absolute;
-  left: 12px;
   height: 12px;
+  left: 12px;
+  position: absolute;
+
   color: ${({ theme }) => theme.colors.text_label};
+
   ${({ isFilled, isFocused }) =>
     isFocused || isFilled
       ? css`
@@ -44,9 +47,9 @@ export const PlaceholderLabel = styled.Text<PlaceholderLabelProps>`
 `;
 
 export const LabeledInput = styled.TextInput`
+  color: ${({ theme }) => theme.colors.text_input};
   flex: 1;
   font-size: ${RFValue(16)}px;
-  color: ${({ theme }) => theme.colors.text_input};
 
   width: 100%;
   height: 24px;

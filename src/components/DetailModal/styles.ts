@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import { RFValue } from "react-native-responsive-fontsize";
 import { AntDesign, MaterialIcons, Ionicons } from "@expo/vector-icons";
-import { Dimensions } from "react-native";
+import { getStatusBarHeight } from "react-native-iphone-x-helper";
 
 interface FavoriteProps {
   isFavorite: boolean;
@@ -15,20 +15,29 @@ export const Container = styled.View`
 
 export const ModalHeader = styled.View`
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   flex-direction: row;
 
   background-color: ${({ theme }) => theme.colors.background_dark};
 
   width: 100%;
-  height: ${Dimensions.get("window").height * 0.1}px;
+  height: ${getStatusBarHeight() + RFValue(56)}px;
+`;
 
+export const WrapperHeader = styled.View`
   padding: 0px 8px 0px 16px;
+  align-items: center;
+  flex-direction: row;
+
+  width: 100%;
 `;
 
 export const ModalHeaderButton = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
+
+  width: 24px;
+  height: 24px;
 `;
 
 export const ModalHeaderButtonIcon = styled(AntDesign)`

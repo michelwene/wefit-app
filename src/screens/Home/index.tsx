@@ -6,8 +6,9 @@ import { ListRenderItem } from "react-native";
 import { Card } from "../../components/Card";
 import { EmptyMessage } from "../../components/EmptyMessage";
 import { DetailModal } from "../../components/DetailModal";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Header } from "../../components/Header";
+import { useStorage } from "../../context/StorageContext";
+import { NetworkConsumer, useIsConnected } from "react-native-offline";
 
 export type UserProps = {
   id: number;
@@ -23,10 +24,12 @@ export type UserProps = {
 };
 
 export function Home() {
-  const [repositories, setRepositories] = useState<Array<UserProps>>([]);
+  const [isConnected, setIsConnected] = useState(true);
   const [isOpenModalSearchUser, setIsOpenModalSearchUser] = useState(false);
   const [isOpenModalDetailRepository, setIsOpenModalDetailRepository] =
     useState(false);
+  const { storeRepository, handleAddRepositories, repositoriesFiltered } =
+    useStorage();
   const [selectedRepository, setSelectedRepository] = useState<
     Partial<UserProps>
   >({});
@@ -48,38 +51,6 @@ export function Home() {
     setSelectedRepository({});
     setIsOpenModalDetailRepository(false);
   }
-
-  const storeRepository = async (value: Partial<UserProps>) => {
-    try {
-      if (value.isFavorited) {
-        try {
-          await AsyncStorage.removeItem(`@repository_Key${value.id}`);
-          const newRepositories = repositories.map((repository) => {
-            if (repository.id === value.id) {
-              repository.isFavorited = false;
-            }
-            return repository;
-          });
-          setRepositories(newRepositories);
-          return;
-        } catch (e) {
-          Alert.alert("Erro ao remover repositório dos favoritos");
-        }
-      } else {
-        const jsonValue = JSON.stringify(value);
-        await AsyncStorage.setItem(`@repository_Key${value.id}`, jsonValue);
-        const newRepositories = repositories.map((repository) => {
-          if (repository.id === value.id) {
-            repository.isFavorited = true;
-          }
-          return repository;
-        });
-        setRepositories(newRepositories);
-      }
-    } catch (e) {
-      Alert.alert("Erro ao salvar o repositório");
-    }
-  };
 
   const Item = ({ data }: { data: UserProps }) => (
     <Card
@@ -112,30 +83,63 @@ export function Home() {
   const renderCard: ListRenderItem<UserProps> = ({ item }) => (
     <Item data={item} />
   );
-
   return (
     <>
       <S.Container>
-        <Header onPress={() => handleOpenModalSearchUser()} />
-        <S.Content>
-          {repositories.length > 0 ? (
-            <S.CardList
-              data={repositories}
-              renderItem={renderCard}
-              keyExtractor={(repository: UserProps) => repository.id}
-            />
-          ) : (
-            <EmptyMessage
-              title="Nenhum repositório encontrado"
-              message="Aperte na engrenagem para selecionar um novo usuário"
-            />
-          )}
-        </S.Content>
+        <NetworkConsumer>
+          {({ isConnected }) => {
+            if (isConnected) {
+              setIsConnected(true);
+              return (
+                <>
+                  <Header onPress={() => handleOpenModalSearchUser()} />
+                  <S.Content>
+                    {repositoriesFiltered.length > 0 ? (
+                      <S.CardList
+                        data={repositoriesFiltered}
+                        renderItem={renderCard}
+                        keyExtractor={(repository: UserProps) => repository.id}
+                      />
+                    ) : (
+                      <EmptyMessage
+                        title="Nenhum repositório encontrado"
+                        message="Aperte na engrenagem para selecionar um novo usuário"
+                      />
+                    )}
+                  </S.Content>
+                </>
+              );
+            } else {
+              setIsConnected(false);
+              return (
+                <>
+                  <Header
+                    onPress={() =>
+                      Alert.alert(
+                        "Sem conexão com a internet",
+                        "Verifique sua conexão para tentar buscar um novo repositório"
+                      )
+                    }
+                  />
+                  <S.Content>
+                    <EmptyMessage
+                      title="Sem conexão com a internet"
+                      message="Verifique sua conexão com a internet"
+                    />
+                  </S.Content>
+                </>
+              );
+            }
+          }}
+        </NetworkConsumer>
       </S.Container>
       <ModalSearchUser
         isOpen={isOpenModalSearchUser}
         handleClose={() => handleCloseModalSearchUser()}
-        handleSelectedUser={(repositories) => setRepositories(repositories)}
+        handleSelectedUser={(repositories) => {
+          handleAddRepositories(repositories);
+        }}
+        isConnection={isConnected}
       />
       <DetailModal
         isOpen={isOpenModalDetailRepository}
@@ -150,8 +154,10 @@ export function Home() {
           owner: {
             avatar_url: selectedRepository.owner?.avatar_url || "",
           },
+          stargazers_count: selectedRepository.stargazers_count || 0,
         }}
         storeRepository={(values) => storeRepository(values)}
+        isConnection={isConnected}
       />
     </>
   );

@@ -1,9 +1,5 @@
 import styled from "styled-components/native";
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import {
-  getBottomSpace,
-  getStatusBarHeight,
-} from "react-native-iphone-x-helper";
+import { getBottomSpace } from "react-native-iphone-x-helper";
 import { FlatList } from "react-native";
 import { UserProps } from ".";
 

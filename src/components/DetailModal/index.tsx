@@ -1,10 +1,8 @@
 import { Modal, Text, Linking, Alert } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Description } from "../Description";
 import { Language } from "../Language";
 import { Title } from "../Title";
 import * as S from "./styles";
-import { useState, useEffect } from "react";
 import { UserProps } from "../../screens/Home";
 
 interface DetailModalProps {
@@ -12,6 +10,7 @@ interface DetailModalProps {
   handleClose: () => void;
   repository: UserProps;
   storeRepository: (value: UserProps) => void;
+  isConnection?: boolean;
 }
 
 export function DetailModal({
@@ -19,9 +18,27 @@ export function DetailModal({
   handleClose,
   repository,
   storeRepository,
+  isConnection,
 }: DetailModalProps) {
   function handleOpenLink() {
     Linking.openURL(repository.html_url);
+  }
+
+  function handleConfirmOpenLinkIfIsConnected() {
+    if (isConnection) {
+      handleOpenLink();
+    } else {
+      Alert.alert("Você está offline", "Deseja abrir o link mesmo assim?", [
+        {
+          text: "Não",
+          style: "cancel",
+        },
+        {
+          text: "Sim",
+          onPress: handleOpenLink,
+        },
+      ]);
+    }
   }
 
   return (
@@ -32,10 +49,12 @@ export function DetailModal({
     >
       <S.Container>
         <S.ModalHeader>
-          <S.ModalHeaderButton onPress={() => handleClose()}>
-            <S.ModalHeaderButtonIcon name="arrowleft" />
-          </S.ModalHeaderButton>
-          <S.ModalHeaderTitle>Detalhes</S.ModalHeaderTitle>
+          <S.WrapperHeader>
+            <S.ModalHeaderButton onPress={() => handleClose()}>
+              <S.ModalHeaderButtonIcon name="arrowleft" />
+            </S.ModalHeaderButton>
+            <S.ModalHeaderTitle>Detalhes</S.ModalHeaderTitle>
+          </S.WrapperHeader>
         </S.ModalHeader>
         <S.Content>
           <S.Info>
@@ -49,13 +68,15 @@ export function DetailModal({
           </S.Info>
           <S.Footer>
             <S.WrapperButtons>
-              <S.ButtonLink onPress={() => handleOpenLink()}>
+              <S.ButtonLink
+                onPress={() => handleConfirmOpenLinkIfIsConnected()}
+              >
                 <S.ButtonLinkText>Ver repositório</S.ButtonLinkText>
                 <S.ButtonLinkIcon name="link" />
               </S.ButtonLink>
               <S.ButtonFavorite
                 isFavorite={repository.isFavorited}
-                onPress={() =>
+                onPress={() => {
                   storeRepository({
                     id: repository.id,
                     full_name: repository.full_name,
@@ -67,8 +88,9 @@ export function DetailModal({
                       avatar_url: repository.owner.avatar_url,
                     },
                     stargazers_count: repository.stargazers_count,
-                  })
-                }
+                  });
+                  handleClose();
+                }}
               >
                 <S.ButtonFavoriteText>
                   {repository.isFavorited ? "desfavoritar" : "favoritar"}

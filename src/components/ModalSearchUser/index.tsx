@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Alert, StyleSheet } from "react-native";
+import { Modal, Alert } from "react-native";
 import * as S from "./styles";
 import { Input } from "../Input";
 import { api } from "../../services/api";
@@ -10,12 +10,14 @@ interface ModalProps {
   isOpen: boolean;
   handleClose: () => void;
   handleSelectedUser: (repositories: Array<UserProps>) => void;
+  isConnection?: boolean;
 }
 
 export function ModalSearchUser({
   isOpen,
   handleClose,
   handleSelectedUser,
+  isConnection,
 }: ModalProps) {
   const [user, setUser] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -31,6 +33,12 @@ export function ModalSearchUser({
 
   async function handleSelectRepository(name: string) {
     try {
+      if (!isConnection) {
+        return Alert.alert(
+          "Você está offline",
+          "Para buscar um usuário, você precisa estar conectado à internet"
+        );
+      }
       setIsLoading(true);
       const response = await api.get(`/${name}/repos`);
       const apiRepositories: Array<UserProps> = response.data.map(
@@ -80,9 +88,7 @@ export function ModalSearchUser({
     >
       <S.Container>
         <S.ModalContainer>
-          <S.Title style={styles.modalText}>
-            Alterar usuário selecionado!
-          </S.Title>
+          <S.Title>Alterar usuário selecionado!</S.Title>
           <Input
             placeholder="Nome do usuário"
             onChangeText={(text) => handleChangeText(text)}
@@ -92,7 +98,10 @@ export function ModalSearchUser({
             <S.ButtonClose onPress={() => onRequestCloseModal()}>
               <S.TextButtonClose>cancelar</S.TextButtonClose>
             </S.ButtonClose>
-            <S.ButtonSubmit onPress={() => handleConfirm()}>
+            <S.ButtonSubmit
+              onPress={() => handleConfirm()}
+              isLoading={isLoading}
+            >
               {isLoading && <S.Loading />}
               <S.TextButtonSubmit disabled={isLoading}>
                 Salvar
@@ -104,22 +113,3 @@ export function ModalSearchUser({
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  textStyle: {
-    color: "blue",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "left",
-  },
-});

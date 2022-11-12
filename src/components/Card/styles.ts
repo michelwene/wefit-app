@@ -94,14 +94,14 @@ export const CardFooterStarIcon = styled(Ionicons)`
 `;
 
 export const CardFooterButtonText = styled.Text<FavoriteProps>`
+  color: ${({ theme, isFavorite }) =>
+    isFavorite ? theme.colors.text_dark : theme.colors.text_btn_secondary};
+
   font-family: ${({ theme }) => theme.fonts.bold};
   font-size: ${RFValue(12)}px;
   line-height: 15px;
 
   margin-left: 10px;
-
-  color: ${({ theme, isFavorite }) =>
-    isFavorite ? theme.colors.text_dark : theme.colors.text_btn_secondary};
 `;
 
 export const CardFooterStars = styled.View`
