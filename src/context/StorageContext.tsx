@@ -3,6 +3,11 @@ import { createContext, useState, useMemo, useContext, useEffect } from "react";
 import { Alert } from "react-native";
 import { StorageContextData } from "../types/StorageContext";
 import { UserProps } from "../types/User";
+import {
+  useGetAllKeys,
+  useGetAllRepositories,
+  useStorageMethods,
+} from "../hooks/useStorage";
 
 interface StorageContextProps {
   children: React.ReactNode;
@@ -16,36 +21,36 @@ export function StorageProvider({ children }: StorageContextProps) {
     Array<UserProps>
   >([]);
 
-  const storeRepository = async (value: Partial<UserProps>) => {
+  const getMultipleRepositories = async () => {
     try {
-      if (value.isFavorited) {
-        await AsyncStorage.removeItem(`@repository_Key${value.id}`);
-        await getMultiple();
-        return;
-      }
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem(`@repository_Key${value.id}`, jsonValue);
-      await getMultiple();
+      let keys: Array<string> = [];
+      keys = (await useGetAllKeys()) as Array<string>;
+
+      const repositoryKeys: Array<string> = keys;
+      const repositoriesFromStorage = await useGetAllRepositories(
+        repositoryKeys
+      );
+      setRepositoriesFromStorage(repositoriesFromStorage!);
     } catch (e) {
-      Alert.alert("Erro ao salvar o repositório");
+      Alert.alert("Erro ao buscar os repositórios favoritados");
     }
   };
 
-  const getMultiple = async () => {
+  const storeRepository = async (value: Partial<UserProps>) => {
     try {
-      let keys = [] as any;
-      keys = await AsyncStorage.getAllKeys();
-      const repositoryKeys: Array<string> = keys;
-      const jsonValue = repositoryKeys.map((key) => {
-        return AsyncStorage.getItem(key);
-      });
-      const values = await Promise.all(jsonValue);
-      const repositoriesFromStorage = values.map((value) => {
-        return JSON.parse(value!);
-      });
-      setRepositoriesFromStorage(repositoriesFromStorage);
+      const { removeFromStorage, setForStorage } = useStorageMethods(
+        `@repository_Key${value.id}`
+      );
+      if (value.isFavorited) {
+        await removeFromStorage();
+        await getMultipleRepositories();
+        return;
+      }
+      const jsonValue = JSON.stringify(value);
+      await setForStorage(jsonValue);
+      await getMultipleRepositories();
     } catch (e) {
-      Alert.alert("Erro ao buscar os repositórios favoritados");
+      Alert.alert("Erro ao salvar o repositório");
     }
   };
 
@@ -59,9 +64,14 @@ export function StorageProvider({ children }: StorageContextProps) {
     );
   });
 
+  useEffect(() => {
+    (async () => {
+      await getMultipleRepositories();
+    })();
+  }, []);
+
   const value = useMemo(
     () => ({
-      getMultiple,
       storeRepository,
       repositoriesFromStorage,
       handleAddRepositories,
@@ -69,12 +79,6 @@ export function StorageProvider({ children }: StorageContextProps) {
     }),
     [repositoriesFromStorage, repositoriesFiltered, repositories]
   );
-
-  useEffect(() => {
-    (async () => {
-      await getMultiple();
-    })();
-  }, []);
 
   return (
     <StorageContext.Provider value={value}>{children}</StorageContext.Provider>

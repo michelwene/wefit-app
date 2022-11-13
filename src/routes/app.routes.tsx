@@ -26,7 +26,7 @@ export function AppRoutes() {
         screenOptions={{
           headerShown: false,
           tabBarActiveTintColor: theme.colors.primary,
-          tabBarInactiveTintColor: theme.colors.text_inactiv,
+          tabBarInactiveTintColor: theme.colors.text_label,
           tabBarLabelStyle: {
             fontSize: 12,
           },

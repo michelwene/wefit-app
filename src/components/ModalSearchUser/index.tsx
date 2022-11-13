@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { Modal, Alert } from "react-native";
+import React, { useRef, useState, useMemo } from "react";
+import { Modal, Alert, Platform } from "react-native";
 import * as S from "./styles";
 import { Input } from "../Input";
 import { api } from "../../services/api";
 import { AxiosError } from "axios";
 import { UserProps } from "../../types/User";
+import BottomSheet from "@gorhom/bottom-sheet";
 
 interface ModalProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ export function ModalSearchUser({
   handleSelectedUser,
   isConnection,
 }: ModalProps) {
+  const bottomSheetRef = useRef<BottomSheet>(null);
   const [user, setUser] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -79,6 +81,11 @@ export function ModalSearchUser({
     }
   }
 
+  const snapPoints = useMemo(
+    () => (Platform.OS === "ios" ? ["27%", "40%"] : ["30%", "40%"]),
+    []
+  );
+
   return (
     <Modal
       transparent={true}
@@ -86,30 +93,32 @@ export function ModalSearchUser({
       visible={isOpen}
       onRequestClose={() => handleClose()}
     >
-      <S.Container>
-        <S.ModalContainer>
-          <S.Title>Alterar usuário selecionado!</S.Title>
-          <Input
-            placeholder="Nome do usuário"
-            onChangeText={(text) => handleChangeText(text)}
-            value={user}
-          />
-          <S.WrapperButtons>
-            <S.ButtonClose onPress={() => onRequestCloseModal()}>
-              <S.TextButtonClose>cancelar</S.TextButtonClose>
-            </S.ButtonClose>
-            <S.ButtonSubmit
-              onPress={() => handleConfirm()}
-              isLoading={isLoading}
-            >
-              {isLoading && <S.Loading />}
-              <S.TextButtonSubmit disabled={isLoading}>
-                Salvar
-              </S.TextButtonSubmit>
-            </S.ButtonSubmit>
-          </S.WrapperButtons>
-        </S.ModalContainer>
-      </S.Container>
+      <S.KeyboardAvoidingView>
+        <BottomSheet ref={bottomSheetRef} index={0} snapPoints={snapPoints}>
+          <S.ModalContainer>
+            <S.Title>Alterar usuário selecionado!</S.Title>
+            <Input
+              placeholder="Nome do usuário"
+              onChangeText={(text) => handleChangeText(text)}
+              value={user}
+            />
+            <S.WrapperButtons>
+              <S.ButtonClose onPress={() => onRequestCloseModal()}>
+                <S.TextButtonClose>cancelar</S.TextButtonClose>
+              </S.ButtonClose>
+              <S.ButtonSubmit
+                onPress={() => handleConfirm()}
+                isLoading={isLoading}
+              >
+                {isLoading && <S.Loading />}
+                <S.TextButtonSubmit disabled={isLoading}>
+                  Salvar
+                </S.TextButtonSubmit>
+              </S.ButtonSubmit>
+            </S.WrapperButtons>
+          </S.ModalContainer>
+        </BottomSheet>
+      </S.KeyboardAvoidingView>
     </Modal>
   );
 }

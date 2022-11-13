@@ -45,12 +45,3 @@ export const PlaceholderLabel = styled.Text<PlaceholderLabelProps>`
           transform: translateY(+30px);
         `}
 `;
-
-export const LabeledInput = styled.TextInput`
-  color: ${({ theme }) => theme.colors.text_input};
-  flex: 1;
-  font-size: ${RFValue(16)}px;
-
-  width: 100%;
-  height: 24px;
-`;

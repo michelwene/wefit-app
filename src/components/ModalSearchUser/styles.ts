@@ -1,15 +1,20 @@
 import styled from "styled-components/native";
 import { RFValue } from "react-native-responsive-fontsize";
-
+import { Platform } from "react-native";
 interface ButtonLoadingProps {
   isLoading: boolean;
 }
 
-export const Container = styled.View`
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
+export const KeyboardAvoidingView = styled.KeyboardAvoidingView.attrs({
+  behavior: Platform.OS === "ios" ? "padding" : "height",
+})`
   flex: 1;
+  width: 100%;
+
+  align-items: center;
   justify-content: flex-end;
+
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 export const ModalContainer = styled.View`
@@ -59,9 +64,9 @@ export const Loading = styled.ActivityIndicator.attrs({
 
 export const ButtonSubmit = styled.TouchableOpacity<ButtonLoadingProps>`
   align-items: center;
+  justify-content: center;
   display: flex;
   flex-direction: row;
-  justify-content: center;
 
   background-color: ${({ theme, isLoading }) =>
     isLoading ? theme.colors.text_inactiv : theme.colors.primary};

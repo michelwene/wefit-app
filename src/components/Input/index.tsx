@@ -1,13 +1,19 @@
 import React, { useState, useCallback, useRef } from "react";
 import * as S from "./styles";
 import { TextInput, TextInputProps } from "react-native";
+import BottomSheet, {
+  BottomSheetTextInput,
+  BottomSheetProps,
+} from "@gorhom/bottom-sheet";
+import { Modal, Alert, StyleSheet, View } from "react-native";
+import { RFValue } from "react-native-responsive-fontsize";
 
 interface InputProps extends TextInputProps {
   placeholder: string;
   onChangeText: (text: string) => void;
   value: string;
 }
-interface InputReference extends TextInput {
+interface InputReference {
   value: string;
 }
 
@@ -15,7 +21,7 @@ export function Input({ placeholder, onChangeText, value }: InputProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
 
-  const inputRef = useRef<InputReference>(null);
+  const inputRef = useRef<any>(null);
 
   const handleInputFocus = useCallback(() => {
     setIsFocused(true);
@@ -40,14 +46,25 @@ export function Input({ placeholder, onChangeText, value }: InputProps) {
       >
         {placeholder}
       </S.PlaceholderLabel>
-      <S.LabeledInput
-        keyboardAppearance="dark"
+      <BottomSheetTextInput
         ref={inputRef}
+        keyboardAppearance="dark"
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         onChangeText={handleChangeText}
         value={value}
+        style={styles.LabeledInput}
       />
     </S.Container>
   );
 }
+
+const styles = StyleSheet.create({
+  LabeledInput: {
+    flex: 1,
+    width: "100%",
+    height: 24,
+    fontSize: RFValue(16),
+    color: "rgba(0, 0, 0, 0.87)",
+  },
+});
