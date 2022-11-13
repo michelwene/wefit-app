@@ -1,11 +1,10 @@
 import React from "react";
 import { Platform } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { useTheme } from "styled-components";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { getBottomSpace } from "react-native-iphone-x-helper";
-import { Ionicons } from "@expo/vector-icons";
 import { Home } from "../screens/Home";
 import { Favorites } from "../screens/Favorites";
 import { RootStackParamList } from "../screens/RootStackParams";
