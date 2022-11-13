@@ -8,7 +8,6 @@ import {
 import { useTheme } from "styled-components";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
 import { getBottomSpace } from "react-native-iphone-x-helper";
 import { Ionicons } from "@expo/vector-icons";
 import { Home } from "../screens/Home";

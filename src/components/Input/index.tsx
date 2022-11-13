@@ -2,7 +2,7 @@ import React, { useState, useCallback, useRef } from "react";
 import * as S from "./styles";
 import { TextInputProps } from "react-native";
 import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
-import { Modal, Alert, StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
 interface InputProps extends TextInputProps {
