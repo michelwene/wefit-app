@@ -11,6 +11,6 @@
     "incremental": true,
     "composite": true
   },
-  "include": ["**/*", "**/*.ts", "**/*.tsx"],
+  "include": ["src/**/*", "**/*.ts", "**/*.tsx"],
   "extends": "expo/tsconfig.base"
 }

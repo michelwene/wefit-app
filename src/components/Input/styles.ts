@@ -26,7 +26,7 @@ export const Container = styled.View`
 
 export const PlaceholderLabel = styled.Text<PlaceholderLabelProps>`
   font-size: ${RFValue(12)}px;
-  font-weight: ${({ theme }) => theme.fonts.regular};
+  font-weight: ${({ theme }) => theme.fonts.roboto.regular};
   letter-spacing: 0.15px;
   line-height: 12px;
 

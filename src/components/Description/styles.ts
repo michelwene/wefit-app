@@ -12,7 +12,7 @@ export const ContentDescription = styled.View`
 export const CardDescription = styled.Text`
   color: ${({ theme }) => theme.colors.text};
 
-  font-family: ${({ theme }) => theme.fonts.regular};
+  font-family: ${({ theme }) => theme.fonts.inter.regular};
   font-size: ${RFValue(12)}px;
 
   line-height: 15px;

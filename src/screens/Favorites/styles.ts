@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 import { FlatList } from "react-native";
 import { getBottomSpace } from "react-native-iphone-x-helper";
-import { UserProps } from "../Home";
+import { UserProps } from "../../types/User";
 
 export const Container = styled.View`
   flex: 1;

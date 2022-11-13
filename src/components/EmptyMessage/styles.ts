@@ -12,7 +12,7 @@ export const Container = styled.View`
 export const Title = styled.Text`
   font-size: ${RFValue(12)}px;
   color: ${({ theme }) => theme.colors.text};
-  font-family: ${({ theme }) => theme.fonts.bold};
+  font-family: ${({ theme }) => theme.fonts.inter.bold};
   letter-spacing: 0.15px;
   line-height: 24px;
   text-align: center;
@@ -21,7 +21,7 @@ export const Title = styled.Text`
 export const Message = styled.Text`
   font-size: ${RFValue(12)}px;
   color: ${({ theme }) => theme.colors.text};
-  font-family: ${({ theme }) => theme.fonts.regular};
+  font-family: ${({ theme }) => theme.fonts.inter.regular};
   letter-spacing: 0.15px;
   line-height: 24px;
   text-align: center;

@@ -24,7 +24,7 @@ export const WrapperHeader = styled.View`
 `;
 
 export const Title = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.medium};
+  font-family: ${({ theme }) => theme.fonts.roboto.medium};
   font-size: ${RFValue(20)}px;
 
   letter-spacing: 0.15px;

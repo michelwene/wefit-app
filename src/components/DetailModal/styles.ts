@@ -46,7 +46,7 @@ export const ModalHeaderButtonIcon = styled(AntDesign)`
 `;
 
 export const ModalHeaderTitle = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.medium};
+  font-family: ${({ theme }) => theme.fonts.roboto.medium};
   font-size: ${RFValue(20)}px;
   color: ${({ theme }) => theme.colors.shape};
   margin-left: 16px;
@@ -126,7 +126,7 @@ export const ButtonFavorite = styled.TouchableOpacity<FavoriteProps>`
 `;
 
 export const ButtonLinkText = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.medium};
+  font-family: ${({ theme }) => theme.fonts.roboto.medium};
   font-size: ${RFValue(15)}px;
   line-height: 26px;
 
@@ -138,7 +138,7 @@ export const ButtonLinkText = styled.Text`
 `;
 
 export const ButtonFavoriteText = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.medium};
+  font-family: ${({ theme }) => theme.fonts.roboto.medium};
   font-size: ${RFValue(15)}px;
   line-height: 26px;
 

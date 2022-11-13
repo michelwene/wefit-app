@@ -19,9 +19,17 @@ export default {
   },
 
   fonts: {
-    regular: "Inter_400Regular",
-    medium: "Inter_500Medium",
-    semi_bold: "Inter_600SemiBold",
-    bold: "Inter_700Bold",
+    inter: {
+      regular: "Inter_400Regular",
+      medium: "Inter_500Medium",
+      semi_bold: "Inter_600SemiBold",
+      bold: "Inter_700Bold",
+    },
+    roboto: {
+      regular: "Roboto_400Regular",
+      medium: "Roboto_500Medium",
+      semi_bold: "Roboto_600SemiBold",
+      bold: "Roboto_700Bold",
+    },
   },
 };

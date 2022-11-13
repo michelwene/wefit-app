@@ -29,7 +29,7 @@ export const ModalContainer = styled.View`
 
 export const Title = styled.Text`
   font-size: ${RFValue(16)}px;
-  font-family: ${({ theme }) => theme.fonts.regular};
+  font-family: ${({ theme }) => theme.fonts.roboto.regular};
   font-style: normal;
   text-align: left;
   width: 100%;
@@ -50,7 +50,7 @@ export const ButtonClose = styled.TouchableOpacity`
 export const TextButtonClose = styled.Text`
   color: ${({ theme }) => theme.colors.primary};
   font-size: ${RFValue(15)}px;
-  font-family: ${({ theme }) => theme.fonts.medium};
+  font-family: ${({ theme }) => theme.fonts.roboto.medium};
   letter-spacing: 0.46px;
   line-height: 26px;
   text-align: center;
@@ -79,7 +79,7 @@ export const ButtonSubmit = styled.TouchableOpacity<ButtonLoadingProps>`
 export const TextButtonSubmit = styled.Text`
   color: ${({ theme }) => theme.colors.shape};
   font-size: ${RFValue(15)}px;
-  font-family: ${({ theme }) => theme.fonts.medium};
+  font-family: ${({ theme }) => theme.fonts.roboto.medium};
   letter-spacing: 0.46px;
   line-height: 26px;
   padding: 8px 0px;

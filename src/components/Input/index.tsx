@@ -1,19 +1,13 @@
 import React, { useState, useCallback, useRef } from "react";
 import * as S from "./styles";
-import { TextInput, TextInputProps } from "react-native";
-import BottomSheet, {
-  BottomSheetTextInput,
-  BottomSheetProps,
-} from "@gorhom/bottom-sheet";
+import { TextInputProps } from "react-native";
+import { BottomSheetTextInput } from "@gorhom/bottom-sheet";
 import { Modal, Alert, StyleSheet, View } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
 interface InputProps extends TextInputProps {
   placeholder: string;
   onChangeText: (text: string) => void;
-  value: string;
-}
-interface InputReference {
   value: string;
 }
 
@@ -66,5 +60,6 @@ const styles = StyleSheet.create({
     height: 24,
     fontSize: RFValue(16),
     color: "rgba(0, 0, 0, 0.87)",
+    fontFamily: "Roboto_400Regular",
   },
 });

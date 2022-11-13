@@ -97,7 +97,7 @@ export const CardFooterButtonText = styled.Text<FavoriteProps>`
   color: ${({ theme, isFavorite }) =>
     isFavorite ? theme.colors.text_dark : theme.colors.text_btn_secondary};
 
-  font-family: ${({ theme }) => theme.fonts.bold};
+  font-family: ${({ theme }) => theme.fonts.inter.bold};
   font-size: ${RFValue(12)}px;
   line-height: 15px;
 
@@ -113,7 +113,7 @@ export const CardFooterStars = styled.View`
 
 export const CardFooterNumberStars = styled.Text`
   color: ${({ theme }) => theme.colors.text};
-  font-family: ${({ theme }) => theme.fonts.regular};
+  font-family: ${({ theme }) => theme.fonts.inter.regular};
   font-size: ${RFValue(12)}px;
   line-height: 15px;
 
