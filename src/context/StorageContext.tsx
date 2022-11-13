@@ -2,11 +2,7 @@ import { createContext, useState, useMemo, useContext, useEffect } from "react";
 import { Alert } from "react-native";
 import { StorageContextData } from "../types/StorageContext";
 import { UserProps } from "../types/User";
-import {
-  useGetAllKeys,
-  useGetAllRepositories,
-  useStorageMethods,
-} from "../hooks/useStorage";
+import { Storage } from "../hooks/useStorage";
 
 interface StorageContextProps {
   children: React.ReactNode;
@@ -19,6 +15,9 @@ export function StorageProvider({ children }: StorageContextProps) {
   const [repositoriesFromStorage, setRepositoriesFromStorage] = useState<
     Array<UserProps>
   >([]);
+
+  const { useAsyncStorageMethods, useGetAllKeys, useGetAllRepositories } =
+    new Storage();
 
   const getMultipleRepositories = async () => {
     try {
@@ -37,7 +36,7 @@ export function StorageProvider({ children }: StorageContextProps) {
 
   const storeRepository = async (value: Partial<UserProps>) => {
     try {
-      const { removeFromStorage, setForStorage } = useStorageMethods(
+      const { removeFromStorage, setForStorage } = useAsyncStorageMethods(
         `@repository_Key${value.id}`
       );
       if (value.isFavorited) {
