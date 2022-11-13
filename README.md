@@ -29,6 +29,10 @@ eas build -p android --profile development || eas build -p ios --profile develop
 ### baixar apk para android
 [Baixar apk para android](https://expo.dev/accounts/michelwene/projects/wefit/builds/b3330d67-47e0-492c-b483-b86c7d7cf72a)
 
+### Gif da aplicação
+![aplicativo](https://user-images.githubusercontent.com/75140033/201517563-d53d710e-5593-42bc-9537-2ab0d1895292.gif)
+
+
 ## 🌐 Tecnologias utilizadas
 
 [JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
